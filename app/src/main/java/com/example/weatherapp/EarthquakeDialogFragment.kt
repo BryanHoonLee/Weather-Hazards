@@ -24,7 +24,8 @@ class EarthquakeDialogFragment: DialogFragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        logFunnel()
+        Pinpoint.logFunnel("Earthquake Dialog Fragment")
+
     }
 
     override fun onCreateView(
@@ -54,14 +55,6 @@ class EarthquakeDialogFragment: DialogFragment(){
         button_load_url.setOnClickListener {
             sharedFeatureResultViewModel.loadUrlButtonClicked()
         }
-    }
-
-    /** Sends Event Log for Funnel Analytics */
-    private fun logFunnel() {
-        val event = MainActivity.pinpointManager?.let {
-            it.analyticsClient.createEvent("Result Bottom Sheet Fragment")
-        }
-        MainActivity.pinpointManager?.analyticsClient?.recordEvent(event)
     }
 
     override fun onStop() {

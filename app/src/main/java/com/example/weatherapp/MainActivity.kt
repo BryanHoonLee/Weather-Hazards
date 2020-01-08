@@ -12,70 +12,65 @@ import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager
 import java.lang.Exception
 
+object Pinpoint{
+    var pinpointManager: PinpointManager? = null
+
+    /** Sends Event Log for Funnel Analytics to Pinpoint */
+    fun logFunnel(eventType: String) {
+        Log.i("Funnel", "$eventType")
+        val event = pinpointManager?.let {
+            it.analyticsClient.createEvent("Funnel")
+                .withAttribute("Screen", "$eventType")
+        }
+        pinpointManager?.analyticsClient?.recordEvent(event)
+    }
+}
 
 class MainActivity : AppCompatActivity() {
-
-    companion object{
-        var pinpointManager: PinpointManager? = null
-
-        private fun getPinpointManager( applicationContext: Context): PinpointManager?{
-            if (pinpointManager == null){
-                val awsConfig = AWSConfiguration(applicationContext)
-
-                AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, object: Callback<UserStateDetails>{
-                    override fun onResult(result: UserStateDetails?) {
-                        Log.i("INIT", result?.getUserState().toString())
-                    }
-
-                    override fun onError(e: Exception?) {
-                        Log.e("INIT", "Initialization error.", e)
-                    }
-                })
-
-                var pinpointConfig = PinpointConfiguration(
-                    applicationContext,
-                    AWSMobileClient.getInstance(),
-                    awsConfig
-                )
-
-                pinpointManager = PinpointManager(pinpointConfig)
-            }
-            return pinpointManager
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initPinpointManager(applicationContext)
+    }
 
+    private fun initPinpointManager(applicationContext: Context): PinpointManager?{
+        if (Pinpoint.pinpointManager == null){
+            val awsConfig = AWSConfiguration(applicationContext)
 
+            AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, object: Callback<UserStateDetails>{
+                override fun onResult(result: UserStateDetails?) {
+                    Log.i("INIT", result?.getUserState().toString())
+                }
+
+                override fun onError(e: Exception?) {
+                    Log.e("INIT", "Initialization error.", e)
+                }
+            })
+
+            var pinpointConfig = PinpointConfiguration(
+                applicationContext,
+                AWSMobileClient.getInstance(),
+                awsConfig
+            )
+
+            Pinpoint.pinpointManager = PinpointManager(pinpointConfig)
+        }
+        return Pinpoint.pinpointManager
     }
 
     override fun onStart() {
         super.onStart()
-        val pinpointManager = getPinpointManager(applicationContext)
-        pinpointManager?.let {
+        Pinpoint.pinpointManager?.let {
             it.sessionClient.startSession()
         }
     }
 
     override fun onStop() {
-        pinpointManager?.let {
+        Pinpoint.pinpointManager?.let {
             it.sessionClient.stopSession()
-            Log.i("onStop", "EVENTS SUBMITTED")
             it.analyticsClient.submitEvents()
         }
         super.onStop()
     }
-
-
-//    override fun onDestroy() {
-//        pinpointManager?.let {
-//            it.sessionClient.stopSession()
-//            Log.i("onDestroy", "EVENTS SUBMITTED")
-//            it.analyticsClient.submitEvents()
-//        }
-//        super.onDestroy()
-//
-//    }
 }

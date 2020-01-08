@@ -49,7 +49,8 @@ class MapFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        logFunnel()
+        Pinpoint.logFunnel("Map Fragment")
+
     }
 
     override fun onCreateView(
@@ -106,7 +107,6 @@ class MapFragment : Fragment() {
             val identifyFuture = mapView.identifyLayersAsync(screenPoint, 15.0, false, 25).await()
 
             identifyFuture?.let {
-
                 try {
                     val identifyLayerResults = it
 
@@ -134,7 +134,6 @@ class MapFragment : Fragment() {
                     Log.d("DisplayFeatureListener", "Execution Exception")
                 }
             }
-
         }
     }
 
@@ -187,32 +186,24 @@ class MapFragment : Fragment() {
 
     /** Sends Event Log to AWS Pinpoint when [map] is clicked. */
     private fun logMapClicked() {
-        val event = MainActivity.pinpointManager?.let {
+        val event = Pinpoint.pinpointManager?.let {
             it.analyticsClient.createEvent("Map Clicked")
                 .withAttribute("TEST1", "TEST1")
                 .withMetric("TESTMETRIC", Math.random())
         }
         Log.i("logEventMapClicked", "${event.toString()}")
-        MainActivity.pinpointManager?.analyticsClient?.recordEvent(event)
+        Pinpoint.pinpointManager?.analyticsClient?.recordEvent(event)
     }
 
     /** Sends Event Log with # of Map Layers to AWS Pinpoint when [map] is clicked. */
     private fun logMapLayerSize(numOfLayers: Int) {
-        val event = MainActivity.pinpointManager?.let {
+        val event = Pinpoint.pinpointManager?.let {
             it.analyticsClient.createEvent("Map Layer Size")
                 .withAttribute("Number Of Layers", numOfLayers.toString())
         }
         Log.i("logEventMapLayerSize", "$numOfLayers")
-        MainActivity.pinpointManager?.analyticsClient?.recordEvent(event)
+        Pinpoint.pinpointManager?.analyticsClient?.recordEvent(event)
 
-    }
-
-    /** Sends Event Log for Funnel Analytics */
-    private fun logFunnel() {
-        val event = MainActivity.pinpointManager?.let {
-            it.analyticsClient.createEvent("Map Fragment")
-        }
-        MainActivity.pinpointManager?.analyticsClient?.recordEvent(event)
     }
 
     /**

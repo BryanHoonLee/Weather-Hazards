@@ -32,7 +32,7 @@ class WildFireDialogFragment: DialogFragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        logFunnel()
+        Pinpoint.logFunnel("Wild Fire Dialog Fragment")
     }
 
     override fun onCreateView(
@@ -65,15 +65,6 @@ class WildFireDialogFragment: DialogFragment(){
         }
     }
 
-
-
-    /** Sends Event Log for Funnel Analytics */
-    private fun logFunnel() {
-        val event = MainActivity.pinpointManager?.let {
-            it.analyticsClient.createEvent("Result Bottom Sheet Fragment")
-        }
-        MainActivity.pinpointManager?.analyticsClient?.recordEvent(event)
-    }
 
     override fun onStop() {
         sharedFeatureResultViewModel.loadUrlHandled()

@@ -29,7 +29,8 @@ class FeatureResultBottomSheetFragment : BottomSheetDialogFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        logFunnel()
+        Pinpoint.logFunnel("Result Bottom Sheet Fragment")
+
     }
     
     override fun onCreateView(
@@ -100,14 +101,6 @@ class FeatureResultBottomSheetFragment : BottomSheetDialogFragment(),
                 navigateToEarthquakeDialogFragment()
             }
         }
-    }
-
-    /** Sends Event Log for Funnel Analytics */
-    private fun logFunnel() {
-        val event = MainActivity.pinpointManager?.let {
-            it.analyticsClient.createEvent("Result Bottom Sheet Fragment")
-        }
-        MainActivity.pinpointManager?.analyticsClient?.recordEvent(event)
     }
 
     private fun navigateToWeatherHazardDialogFragment(){

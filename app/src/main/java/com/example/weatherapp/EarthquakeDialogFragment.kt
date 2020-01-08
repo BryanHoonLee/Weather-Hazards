@@ -22,6 +22,11 @@ class EarthquakeDialogFragment: DialogFragment(){
 
     private val sharedFeatureResultViewModel: SharedFeatureResultViewModel by activityViewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        logFunnel()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,18 +45,8 @@ class EarthquakeDialogFragment: DialogFragment(){
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        webView.setOnKeyListener { v, keyCode, event ->
-//            if (webView.isVisible && keyCode == KeyEvent.KEYCODE_BACK){
-//                webView.destroy()
-//                webView.visibility = View.GONE
-//                linearLayout1.visibility = View.VISIBLE
-//            }
-//            true
-//        }
-
+    override fun onStart() {
+        super.onStart()
         button_close.setOnClickListener {
             dialog?.dismiss()
         }
@@ -61,8 +56,17 @@ class EarthquakeDialogFragment: DialogFragment(){
         }
     }
 
-    override fun onDestroy() {
+    /** Sends Event Log for Funnel Analytics */
+    private fun logFunnel() {
+        val event = MainActivity.pinpointManager?.let {
+            it.analyticsClient.createEvent("Result Bottom Sheet Fragment")
+        }
+        MainActivity.pinpointManager?.analyticsClient?.recordEvent(event)
+    }
+
+    override fun onStop() {
         sharedFeatureResultViewModel.loadUrlHandled()
-        super.onDestroy()
+
+        super.onStop()
     }
 }

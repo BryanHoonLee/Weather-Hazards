@@ -29,6 +29,11 @@ class WeatherHazardDialogFragment : DialogFragment() {
 
     private val sharedFeatureResultViewModel: SharedFeatureResultViewModel by activityViewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        logFunnel()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,10 +50,9 @@ class WeatherHazardDialogFragment : DialogFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        webView.setOnKeyListener { v, keyCode, event ->
+    override fun onStart() {
+        super.onStart()
+        //        webView.setOnKeyListener { v, keyCode, event ->
 //            if (webView.isVisible && keyCode == KeyEvent.KEYCODE_BACK) {
 //                webView.destroy()
 //                weatherHazardDialogViewModel.loadUrlHandled()
@@ -64,13 +68,22 @@ class WeatherHazardDialogFragment : DialogFragment() {
         }
 
         button_load_url.setOnClickListener {
-                sharedFeatureResultViewModel.loadUrlButtonClicked()
+            sharedFeatureResultViewModel.loadUrlButtonClicked()
         }
     }
 
-    override fun onDestroy() {
+    /** Sends Event Log for Funnel Analytics */
+    private fun logFunnel() {
+        val event = MainActivity.pinpointManager?.let {
+            it.analyticsClient.createEvent("Result Bottom Sheet Fragment")
+        }
+        MainActivity.pinpointManager?.analyticsClient?.recordEvent(event)
+    }
+
+    override fun onStop() {
         sharedFeatureResultViewModel.loadUrlHandled()
-        super.onDestroy()
+        super.onStop()
+
     }
 
     //    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

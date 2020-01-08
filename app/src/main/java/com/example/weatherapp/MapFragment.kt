@@ -32,7 +32,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.concurrent.CancellationException
 import java.util.concurrent.ExecutionException
 
 class MapFragment : Fragment() {
@@ -50,7 +49,7 @@ class MapFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        funnelMap()
+        logFunnel()
     }
 
     override fun onCreateView(
@@ -209,7 +208,7 @@ class MapFragment : Fragment() {
     }
 
     /** Sends Event Log for Funnel Analytics */
-    private fun funnelMap() {
+    private fun logFunnel() {
         val event = MainActivity.pinpointManager?.let {
             it.analyticsClient.createEvent("Map Fragment")
         }

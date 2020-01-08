@@ -26,6 +26,11 @@ class FeatureResultBottomSheetFragment : BottomSheetDialogFragment(),
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: FeatureResultAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        logFunnel()
+    }
     
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,6 +100,14 @@ class FeatureResultBottomSheetFragment : BottomSheetDialogFragment(),
                 navigateToEarthquakeDialogFragment()
             }
         }
+    }
+
+    /** Sends Event Log for Funnel Analytics */
+    private fun logFunnel() {
+        val event = MainActivity.pinpointManager?.let {
+            it.analyticsClient.createEvent("Result Bottom Sheet Fragment")
+        }
+        MainActivity.pinpointManager?.analyticsClient?.recordEvent(event)
     }
 
     private fun navigateToWeatherHazardDialogFragment(){

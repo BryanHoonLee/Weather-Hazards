@@ -1,0 +1,20 @@
+{
+    "apps": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-weatherapp-apps-102247-authRole",
+            "UnauthRoleArn": "arn:aws:iam::837391974479:role/amplify-weatherapp-apps-102247-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::837391974479:role/amplify-weatherapp-apps-102247-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-weatherapp-apps-102247-deployment",
+            "UnauthRoleName": "amplify-weatherapp-apps-102247-unauthRole",
+            "StackName": "amplify-weatherapp-apps-102247",
+            "StackId": "arn:aws:cloudformation:us-west-2:837391974479:stack/amplify-weatherapp-apps-102247/b5842950-317a-11ea-a726-0aa153520eb4",
+            "AmplifyAppId": "duni063oju9dx"
+        },
+        "categories": {
+            "auth": {
+                "cognitof813fb6c": {}
+            }
+        }
+    }
+}

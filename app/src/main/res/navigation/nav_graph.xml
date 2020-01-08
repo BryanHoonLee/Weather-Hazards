@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mapFragment">
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.weatherapp.MapFragment"
+        tools:layout="@layout/fragment_map"
+        android:label="MapFragment">
+        <action
+            android:id="@+id/action_mapFragment_to_featureResultBottomSheetFragment"
+            app:destination="@id/featureResultBottomSheetFragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/featureResultBottomSheetFragment"
+        android:name="com.example.weatherapp.FeatureResultBottomSheetFragment"
+        tools:layout="@layout/bottom_sheet_dialog_fragment_feature_result"
+        android:label="FeatureResultBottomSheetFragment" >
+        <action
+            android:id="@+id/action_featureResultBottomSheetFragment_to_weatherHazardDialogFragment"
+            app:destination="@id/weatherHazardDialogFragment" />
+        <action
+            android:id="@+id/action_featureResultBottomSheetFragment_to_earthquakeDialogFragment"
+            app:destination="@id/earthquakeDialogFragment" />
+        <action
+            android:id="@+id/action_featureResultBottomSheetFragment_to_wildFireDialogFragment"
+            app:destination="@id/wildFireDialogFragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/earthquakeDialogFragment"
+        android:name="com.example.weatherapp.EarthquakeDialogFragment"
+        tools:layout="@layout/dialog_fragment_earthquake"
+        android:label="EarthquakeHazardDialogFragment" />
+
+    <dialog
+        android:id="@+id/weatherHazardDialogFragment"
+        android:name="com.example.weatherapp.WeatherHazardDialogFragment"
+        tools:layout="@layout/dialog_fragment_weather_hazard"
+        android:label="WeatherHazardDialogFragment" />
+
+    <dialog
+        android:id="@+id/wildFireDialogFragment"
+        android:name="com.example.weatherapp.WildFireDialogFragment"
+        tools:layout="@layout/dialog_fragment_wildfire"
+        android:label="WildFireDialogFragment" />
+</navigation>

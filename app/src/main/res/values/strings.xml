@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Weather App</string>
+
+    <string name="portal_url"></string>
+    <string name="oauth_client_id"></string>
+    <string name="oauth_redirect_uri"></string>
+
+    <string name="date_start_and_date_end">%1$s - %2$s</string>
+
+    <string name="wildfire_acre">%1$s %2$s</string>
+
+    <string name="tsunami_threat">Tsunami Threat: %1$s</string>
+</resources>
